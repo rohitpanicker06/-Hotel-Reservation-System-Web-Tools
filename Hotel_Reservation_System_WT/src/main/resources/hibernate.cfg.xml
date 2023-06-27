@@ -31,6 +31,7 @@
       
         <!-- <mapping resource="Room.hbm.xml" /> -->
         <mapping class= "com.mycompany.hotel_reservation_system.pojo.Room" />
+         <mapping class= "com.mycompany.hotel_reservation_system.pojo.UserAccount" />
       
     </session-factory>
 </hibernate-configuration>

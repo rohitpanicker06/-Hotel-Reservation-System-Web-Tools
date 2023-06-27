@@ -4,6 +4,7 @@
  */
 package com.mycompany.hotel_reservation_system.controller;
 
+import com.mycompany.hotel_reservation_system.dao.RoomDao;
 import com.mycompany.hotel_reservation_system.pojo.Room;
 import com.mycompany.hotel_reservation_system.validator.HotelRoomValidator;
 import java.io.BufferedOutputStream;
@@ -45,7 +46,7 @@ public class HotelRoomController {
     
     
     @PostMapping("/room/add.htm")
-    public String showSuccessForRoomAddition(@ModelAttribute("room") Room room, BindingResult result, SessionStatus status) throws IOException
+    public String showSuccessForRoomAddition(@ModelAttribute("room") Room room, BindingResult result, SessionStatus status, RoomDao roomdao) throws IOException
     {
         String path = "/Users/rohitpanicker/Desktop/webDevProject/-Hotel-Reservation-System-Web-Tools/";
         validator.validate("room", result);
@@ -64,14 +65,8 @@ public class HotelRoomController {
         
         status.setComplete();
         
-        //persist the object
-        Configuration cfg = new Configuration();
-        SessionFactory sf = cfg.configure("hibernate.cfg.xml").buildSessionFactory();
-        Session session = sf.openSession();
-       // cfg.addAnnotatedClass(Room.class); can be done in place of mentioning it in xml
-        Transaction tx = session.beginTransaction();
-        session.persist(room);
-        tx.commit();
+        roomdao.saveRoom(room);
+       
         
         return "addRoom";
     }
