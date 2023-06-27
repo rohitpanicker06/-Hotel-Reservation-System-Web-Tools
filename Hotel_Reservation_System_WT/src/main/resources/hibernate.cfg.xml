@@ -29,7 +29,8 @@
         <!-- Database dropping will be generated followed by database creation -->
         <!--<property name="hbm2ddl.auto">none</property> -->
       
-        <mapping resource="Room.hbm.xml" />
+        <!-- <mapping resource="Room.hbm.xml" /> -->
+        <mapping class= "com.mycompany.hotel_reservation_system.pojo.Room" />
       
     </session-factory>
 </hibernate-configuration>

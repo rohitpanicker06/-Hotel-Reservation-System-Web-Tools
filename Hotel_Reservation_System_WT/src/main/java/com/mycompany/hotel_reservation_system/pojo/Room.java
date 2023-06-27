@@ -4,6 +4,11 @@
  */
 package com.mycompany.hotel_reservation_system.pojo;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
@@ -14,13 +19,27 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
  */
 
 @Component
+@Entity
+@Table(name="HotelRooms")
 public class Room {
     
+    @Id
+    @Column(name="id")
     private Integer id;
+    
+    @Column(name="descriptions")
     private String description;
+    
+    @Column(name="capacity")
     private Integer capacity;
+    
+     @Column(name="costPerDay")
     private Double costPerDay;
+     
+    @Transient 
     private MultipartFile photo;
+    
+    @Column(name="photoFilePath")
     private String photoFilePath;
 
     public String getPhotoFilePath() {
