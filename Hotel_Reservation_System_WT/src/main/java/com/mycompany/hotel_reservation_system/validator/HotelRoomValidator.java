@@ -4,7 +4,7 @@
  */
 package com.mycompany.hotel_reservation_system.validator;
 
-import com.mycompany.hotel_reservation_system.pojo.RoomPojo;
+import com.mycompany.hotel_reservation_system.pojo.Room;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -20,7 +20,7 @@ public class HotelRoomValidator implements Validator{
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return RoomPojo.class.isAssignableFrom(clazz);
+        return Room.class.isAssignableFrom(clazz);
         
     }
 
@@ -30,11 +30,11 @@ public class HotelRoomValidator implements Validator{
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "id", "id cannot be empty", "Id cannot be empty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "empty-description", "Description cannot be empty");
         
-        RoomPojo room = (RoomPojo) target;
+       /* Room room = (Room) target;
         if(room.getPhoto().getSize() == 0 )
         {
             errors.rejectValue("photo", "empty-photo", "File is empty");
-        }
+        }*/
 
     }
     

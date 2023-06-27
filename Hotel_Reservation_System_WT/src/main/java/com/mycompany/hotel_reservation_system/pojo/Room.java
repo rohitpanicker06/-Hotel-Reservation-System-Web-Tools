@@ -14,13 +14,22 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
  */
 
 @Component
-public class RoomPojo {
+public class Room {
     
     private Integer id;
     private String description;
     private Integer capacity;
     private Double costPerDay;
     private MultipartFile photo;
+    private String photoFilePath;
+
+    public String getPhotoFilePath() {
+        return photoFilePath;
+    }
+
+    public void setPhotoFilePath(String photoFilePath) {
+        this.photoFilePath = photoFilePath;
+    }
 
     public MultipartFile getPhoto() {
         return photo;
@@ -30,7 +39,7 @@ public class RoomPojo {
         this.photo = photo;
     }
 
-    public RoomPojo() {
+    public Room() {
     }
 
     public Integer getId() {
