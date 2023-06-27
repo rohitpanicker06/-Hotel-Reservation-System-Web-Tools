@@ -20,7 +20,7 @@ public class RoomPojo {
     private String description;
     private Integer capacity;
     private Double costPerDay;
-    MultipartFile photo;
+    private MultipartFile photo;
 
     public MultipartFile getPhoto() {
         return photo;

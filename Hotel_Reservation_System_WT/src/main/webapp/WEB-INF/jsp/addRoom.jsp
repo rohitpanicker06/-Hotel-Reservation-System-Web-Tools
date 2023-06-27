@@ -13,7 +13,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Welcome, Please enter the details to add a new Hotel Room</h1>
+        <h1>WelcomeSSS, Please enter the details to add a new Hotel Room</h1>
             
         Server Version: <%= application.getServerInfo() %><br>
 Servlet Version: <%= application.getMajorVersion() %>.<%= application.getMinorVersion() %>

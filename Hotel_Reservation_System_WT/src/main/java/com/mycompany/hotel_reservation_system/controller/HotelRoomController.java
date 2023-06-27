@@ -43,41 +43,23 @@ public class HotelRoomController {
     @PostMapping("/room/add.htm")
     public String showSuccessForRoomAddition(@ModelAttribute("room") RoomPojo room, BindingResult result, SessionStatus status) throws IOException
     {
-       // validator.validate("room", result);
+        String path = "/Users/rohitpanicker/Desktop/webDevProject/-Hotel-Reservation-System-Web-Tools/";
+        validator.validate("room", result);
         if(result.hasErrors())
         {
             return "addRoom";
         }
+       
+        String fileName = room.getPhoto().getOriginalFilename();
         
-         MultipartFile file = room.getPhoto();
-        if(!file.isEmpty()) {
-      BufferedOutputStream bos =null;
-      try {
-        byte[] fileBytes = file.getBytes();
-        // location to save the file
-        String fileName = "/Users/rohitpanicker/Desktop/webDevProject/-Hotel-Reservation-System-Web-Tools/"+file.getOriginalFilename();
-        bos = new BufferedOutputStream(new FileOutputStream(new File(fileName)));
-        bos.write(fileBytes);
-      
-      } catch (IOException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }finally {
-        if(bos != null) {
-          try {
-            bos.close();
-          } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-          }
-        }
-      }
-    }
+        File file  = new File(path, fileName);
         
+        room.getPhoto().transferTo(file);
         
+       
         
         status.setComplete();
-        return "";
+        return "addRoom";
     }
     
 }

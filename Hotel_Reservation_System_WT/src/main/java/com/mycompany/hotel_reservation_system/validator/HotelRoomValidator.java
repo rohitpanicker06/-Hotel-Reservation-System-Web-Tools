@@ -27,14 +27,14 @@ public class HotelRoomValidator implements Validator{
     @Override
     public void validate(Object target, Errors errors) {
            
-       // ValidationUtils.rejectIfEmptyOrWhitespace(errors, "id", "id cannot be empty");
-       // ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "empty-description", "Description cannot be empty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "id", "id cannot be empty", "Id cannot be empty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "empty-description", "Description cannot be empty");
         
-       /* RoomPojo room = (RoomPojo) target;
+        RoomPojo room = (RoomPojo) target;
         if(room.getPhoto().getSize() == 0 )
         {
             errors.rejectValue("photo", "empty-photo", "File is empty");
-        }*/
+        }
 
     }
     
