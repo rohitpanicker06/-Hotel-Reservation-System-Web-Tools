@@ -1,6 +1,6 @@
 <%-- 
-    Document   : login-form
-    Created on : Jun 27, 2023, 4:17:27 PM
+    Document   : signup
+    Created on : Jun 27, 2023, 6:49:10 PM
     Author     : rohitpanicker
 --%>
 
@@ -12,13 +12,14 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Login Form</h1>
-        <form action="login.htm" method="post">
+        <h1>Sign Up : Please Enter your Details</h1>
+        
+          <h1>Login Form</h1>
+        <form action="signup.htm" method="post">
             Username: <input type="text" name="userName" /><!-- comment -->
             Password: <input type="password" name="password"/>
-            <input type="submit" value="Login"/><!-- comment -->
+            Role: <input type="text" name="role"/>
+            <input type="submit" value="Sign Up"/><!-- comment -->
         </form>
-        
-        <a href="signup.htm"> Click here to Sign Up </a>
     </body>
 </html>

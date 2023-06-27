@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Entity
-@Table
+@Table(name="UserAccount")
 public class UserAccount {
     
      public UserAccount() {
@@ -23,16 +23,25 @@ public class UserAccount {
     
     
     @Id
-    private int accountId;
+    private int id;
     private String userName;
     private String password;
+    private String role;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     public int getAccountId() {
-        return accountId;
+        return id;
     }
 
     public void setAccountId(int accountId) {
-        this.accountId = accountId;
+        this.id = accountId;
     }
 
     public String getUserName() {

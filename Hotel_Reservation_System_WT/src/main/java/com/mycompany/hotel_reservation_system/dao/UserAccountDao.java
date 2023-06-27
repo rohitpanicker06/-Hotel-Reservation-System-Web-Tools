@@ -4,7 +4,9 @@
  */
 package com.mycompany.hotel_reservation_system.dao;
 
+import static com.mycompany.hotel_reservation_system.dao.DAO.getSession;
 import com.mycompany.hotel_reservation_system.pojo.UserAccount;
+import org.hibernate.HibernateException;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +32,21 @@ public class UserAccountDao extends DAO {
             return true;
         }
         return false;
+    }
+    
+    
+    public boolean singup(UserAccount userAccount)
+    {
+         try{
+        begin();
+        getSession().persist(userAccount);
+        commit();
+        return true;
+         }catch(HibernateException e)
+         {
+             return false;
+         }
+        
     }
     
     
