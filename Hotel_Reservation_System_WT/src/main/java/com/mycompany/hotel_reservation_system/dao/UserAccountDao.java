@@ -28,7 +28,8 @@ public class UserAccountDao extends DAO {
         UserAccount account = (UserAccount) q.uniqueResult();
         
         if(account!=null)
-        {
+        {   
+            
             return true;
         }
         return false;

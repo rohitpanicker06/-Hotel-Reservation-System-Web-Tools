@@ -22,10 +22,10 @@ public class Utils {
          HttpSession session = request.getSession(false);
          
         // Get the current session if it exists
-           if(session.getAttribute("loggedIn") == null)
+           if(session.getAttribute("isLoggedIn") == null)
            {
                return false;
-           }else if( Boolean.parseBoolean((String) session.getAttribute("loggedIn")) == true )
+           }else if( Boolean.parseBoolean((String) session.getAttribute("isLoggedIn")) == true )
            {
                return true;
            }

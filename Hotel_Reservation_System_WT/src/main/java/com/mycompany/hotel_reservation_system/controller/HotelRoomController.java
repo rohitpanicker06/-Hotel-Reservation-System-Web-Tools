@@ -8,6 +8,7 @@ import com.mycompany.hotel_reservation_system.dao.RoomDao;
 import com.mycompany.hotel_reservation_system.dao.UserAccountDao;
 import com.mycompany.hotel_reservation_system.pojo.Room;
 import com.mycompany.hotel_reservation_system.pojo.UserAccount;
+import com.mycompany.hotel_reservation_system.utils.Constants;
 import com.mycompany.hotel_reservation_system.utils.Utils;
 import com.mycompany.hotel_reservation_system.validator.HotelRoomValidator;
 import java.io.BufferedOutputStream;
@@ -46,37 +47,15 @@ public class HotelRoomController {
     {
          
         if (!utils.isLoggedIn(request)) {
-            return "login-form";
+            return Constants.LOGIN_VIEW;
         }else{
            
         model.addAttribute("room", room); // used instead of command class
-        return "addRoom";
+        return Constants.ADD_ROOM_VIEW;
         }
     }
     
-    @GetMapping("/room/signup.htm")
-    public String showSignUpForm()
-    {
-     
-        return "signup";
-    }
-    
-    @PostMapping("/room/signup.htm")
-    public String postSignUpForm(HttpServletRequest request, UserAccountDao usdao, UserAccount userAccount)
-    {
-        String us = request.getParameter("userName");
-        String pass = request.getParameter("password");
-        String role = request.getParameter("role");
-        userAccount.setUserName(us);
-        userAccount.setPassword(pass);
-        userAccount.setRole(role);
-        boolean result = usdao.singup(userAccount);
-        if(result)
-        {
-            return "login-form";
-        }
-        return "signup";
-    }
+   
     
     
     @PostMapping("/room/add.htm")
@@ -87,7 +66,7 @@ public class HotelRoomController {
         validator.validate("room", result);
         if(result.hasErrors())
         {
-            return "addRoom";
+            return Constants.ADD_ROOM_VIEW;
         }
         System.out.println("Outside Validate");
        
@@ -103,7 +82,7 @@ public class HotelRoomController {
         roomdao.saveRoom(room);
        
         
-        return "addRoom";
+        return Constants.ADD_ROOM_VIEW;
     }
     
 }
