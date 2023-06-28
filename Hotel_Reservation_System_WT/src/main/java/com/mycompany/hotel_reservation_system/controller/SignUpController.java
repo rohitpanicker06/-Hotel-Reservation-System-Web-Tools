@@ -33,9 +33,11 @@ public class SignUpController {
         String us = request.getParameter("userName");
         String pass = request.getParameter("password");
         String role = request.getParameter("role");
+        String email = request.getParameter("email");
         userAccount.setUserName(us);
         userAccount.setPassword(pass);
         userAccount.setRole(role);
+        userAccount.setEmail(email);
         boolean result = usdao.singup(userAccount);
         if(result)
         {

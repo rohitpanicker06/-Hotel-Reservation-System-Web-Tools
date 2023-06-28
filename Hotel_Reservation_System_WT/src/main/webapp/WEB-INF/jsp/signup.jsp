@@ -18,6 +18,7 @@
         <form action="signup.htm" method="post">
             Username: <input type="text" name="userName" /><!-- comment -->
             Password: <input type="password" name="password"/>
+            Email Address : <input type="text" name="email" />
             Role: <input type="text" name="role"/>
             <input type="submit" value="Sign Up"/><!-- comment -->
         </form>

@@ -41,8 +41,9 @@ public class LoginController {
              request.getSession().setAttribute("isLoggedIn", "true");
              request.getSession().setAttribute("userAccount",userAccount );
             return Constants.ADD_ROOM_VIEW;
-        }
+        }else{
         return Constants.LOGIN_VIEW;
+    }
     }
     
     

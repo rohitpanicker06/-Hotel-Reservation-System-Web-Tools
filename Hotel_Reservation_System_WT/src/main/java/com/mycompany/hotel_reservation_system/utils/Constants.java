@@ -12,4 +12,5 @@ public class Constants {
     public static String ADD_ROOM_VIEW = "addRoom";
     public static String SIGNUP_VIEW = "signup";
     public static String LOGIN_VIEW = "login-form";
+    public static String VIEW_ALL_HOTEL_ROOMS = "viewHotelRooms";
 }

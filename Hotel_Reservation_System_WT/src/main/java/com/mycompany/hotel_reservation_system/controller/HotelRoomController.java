@@ -15,6 +15,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.hibernate.Session;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 /**
@@ -46,13 +48,15 @@ public class HotelRoomController {
     public String showFormForaddRoomFacility(HttpServletRequest request, ModelMap model, Room room, Utils utils)
     {
          
-        if (!utils.isLoggedIn(request)) {
+        /*if (!utils.isLoggedIn(request)) {
             return Constants.LOGIN_VIEW;
         }else{
            
         model.addAttribute("room", room); // used instead of command class
         return Constants.ADD_ROOM_VIEW;
-        }
+        }*/
+        
+        return Constants.ADD_ROOM_VIEW;
     }
     
    
@@ -62,7 +66,7 @@ public class HotelRoomController {
     public String showSuccessForRoomAddition(HttpServletRequest request, @ModelAttribute("room") Room room, BindingResult result, SessionStatus status, RoomDao roomdao) throws IOException
     {
         
-        String path = "/Users/rohitpanicker/Desktop/webDevProject/-Hotel-Reservation-System-Web-Tools/";
+        String path = "/Users/rohitpanicker/Desktop/webDevProject/FileUploads/";
         validator.validate("room", result);
         if(result.hasErrors())
         {
@@ -83,6 +87,15 @@ public class HotelRoomController {
        
         
         return Constants.ADD_ROOM_VIEW;
+    }
+    
+    
+    @GetMapping("/room/getAllRooms.htm")
+    public ModelAndView getAllHotelRooms(HttpServletRequest request, RoomDao dao)
+    {
+        List<Room> allRooms = dao.getAllRoom();
+        
+        return new ModelAndView(Constants.VIEW_ALL_HOTEL_ROOMS, "allRoomsList", allRooms);
     }
     
 }

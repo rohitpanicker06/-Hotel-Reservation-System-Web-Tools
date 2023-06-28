@@ -7,6 +7,7 @@ package com.mycompany.hotel_reservation_system.pojo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import org.springframework.stereotype.Component;

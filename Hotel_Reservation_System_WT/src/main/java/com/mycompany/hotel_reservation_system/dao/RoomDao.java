@@ -5,7 +5,14 @@
 package com.mycompany.hotel_reservation_system.dao;
 
 import com.mycompany.hotel_reservation_system.pojo.Room;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
+import java.util.List;
 import org.hibernate.HibernateException;
+import org.hibernate.query.Query;
+
 import org.springframework.stereotype.Component;
 
 /**
@@ -24,6 +31,19 @@ public class RoomDao extends DAO {
         {
             rollback();
         }
+        
+    }
+    
+    
+    public List<Room> getAllRoom()
+    {
+        CriteriaBuilder cb = getSession().getCriteriaBuilder();
+        CriteriaQuery<Room> cq = cb.createQuery(Room.class);
+        Root<Room> rootEntry = cq.from(Room.class);
+        CriteriaQuery<Room> all = cq.select(rootEntry);
+        TypedQuery<Room> allQuery = getSession().createQuery(all);
+        return allQuery.getResultList();
+        
         
     }
     
