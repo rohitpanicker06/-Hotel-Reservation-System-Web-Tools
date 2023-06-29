@@ -4,6 +4,8 @@
  */
 package com.mycompany.hotel_reservation_system.dao;
 
+import static com.mycompany.hotel_reservation_system.dao.DAO.getSession;
+import com.mycompany.hotel_reservation_system.pojo.BookingDetails;
 import com.mycompany.hotel_reservation_system.pojo.Room;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -43,6 +45,38 @@ public class RoomDao extends DAO {
         CriteriaQuery<Room> all = cq.select(rootEntry);
         TypedQuery<Room> allQuery = getSession().createQuery(all);
         return allQuery.getResultList();
+        
+        
+    }
+    
+     public List<Room> getRoomById(Integer id)
+    {
+      
+       String hqlQuery = "SELECT H FROM Room H WHERE H.id = :id";
+       Query<Room> query = getSession().createQuery(hqlQuery, Room.class);
+       query.setParameter("id", id);
+      
+       List<Room> results = query.getResultList();
+       
+       System.out.println(results.size());
+        
+       return results;
+        
+    }
+    
+     public List<Room> getAllRoom(String address, String capacity)
+    {
+        System.out.println("Dao address " + address);
+        System.out.println("Dao capacity " + capacity);
+       String hqlQuery = "SELECT H FROM Room H WHERE H.capacity >= :capacity AND H.address LIKE CONCAT('%', :address, '%')";
+       Query<Room> query = getSession().createQuery(hqlQuery, Room.class);
+       query.setParameter("capacity", capacity);
+       query.setParameter("address", address);
+       List<Room> results = query.getResultList();
+       
+       System.out.println(results.size());
+        
+       return results;
         
         
     }

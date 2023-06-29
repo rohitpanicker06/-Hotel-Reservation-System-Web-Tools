@@ -86,16 +86,34 @@ public class HotelRoomController {
         roomdao.saveRoom(room);
        
         
-        return Constants.ADD_ROOM_VIEW;
+        return Constants.ADD_ROOM_Sucess;
     }
     
     
-    @GetMapping("/room/getAllRooms.htm")
-    public ModelAndView getAllHotelRooms(HttpServletRequest request, RoomDao dao)
+    @GetMapping("/room/searchRooms.htm")
+    public String getAllHotelRooms(HttpSession session, HttpServletRequest request, RoomDao dao)
     {
-        List<Room> allRooms = dao.getAllRoom();
-        
-        return new ModelAndView(Constants.VIEW_ALL_HOTEL_ROOMS, "allRoomsList", allRooms);
+           System.out.println("Session testing inside get = " +   session.getId());
+        return "searchPage";
+    }
+    
+    @PostMapping("/room/searchRooms.htm")
+    public ModelAndView searchHotelRooms(HttpSession session, HttpServletRequest request, RoomDao dao)
+    {
+       System.out.println("Session testing inside post = " +   session.getId());
+       String address = request.getParameter("address");
+       String capacity = request.getParameter("capacity");
+       String date = request.getParameter("date");
+       List<Room> allRooms = dao.getAllRoom(address, capacity);
+       System.out.println("Last Result size = " + allRooms.size());
+       
+       ModelAndView mv = new ModelAndView();
+       mv.addObject("searchResults", allRooms);
+       mv.addObject("bookingDate", date);
+       mv.setViewName("searchPage");
+       
+       return mv;
+     
     }
     
 }

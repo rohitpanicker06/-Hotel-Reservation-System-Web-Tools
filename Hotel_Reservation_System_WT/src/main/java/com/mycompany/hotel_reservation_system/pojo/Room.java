@@ -42,6 +42,41 @@ public class Room {
     
     @Column(name="photoFilePath")
     private String photoFilePath;
+    
+    private String hotelName;
+    
+    private Integer pincode;
+    
+    private String address;
+
+    public String getHotelName() {
+        return hotelName;
+    }
+
+    public void setHotelName(String hotelName) {
+        this.hotelName = hotelName;
+    }
+
+    public Integer getPincode() {
+        return pincode;
+    }
+
+    public void setPincode(Integer pincode) {
+        this.pincode = pincode;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    
+    
+    
+    
+    
 
     public String getPhotoFilePath() {
         return photoFilePath;

@@ -16,9 +16,9 @@
     <body>
         <%
             List<Room> roomList = (List<Room>)request.getAttribute("allRoomsList");
-            out.println(roomList.get(3).getId());
+            out.println(roomList.get(0).getId());
             %>
             
-            Cover Image: <img src="/covers/<%= roomList.get(2).getId() %>.jpg"/><br>
+            Cover Image: <img src="/covers/<%= roomList.get(0).getId() %>.jpg"/><br>
     </body>
 </html>
