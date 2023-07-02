@@ -23,62 +23,72 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class RoomDao extends DAO {
-    
-    public void saveRoom(Room room){
-        try{
-        begin();
-        getSession().persist(room);
-        commit();
-        }catch(HibernateException e)
-        {
+
+    public void saveRoom(Room room) {
+        try {
+            begin();
+            getSession().persist(room);
+            commit();
+        } catch (HibernateException e) {
             rollback();
         }
-        
+
     }
-    
-    
-    public List<Room> getAllRoom()
-    {
+
+    public List<Room> getAllRoom() {
         CriteriaBuilder cb = getSession().getCriteriaBuilder();
         CriteriaQuery<Room> cq = cb.createQuery(Room.class);
         Root<Room> rootEntry = cq.from(Room.class);
         CriteriaQuery<Room> all = cq.select(rootEntry);
         TypedQuery<Room> allQuery = getSession().createQuery(all);
         return allQuery.getResultList();
-        
-        
+
     }
-    
-     public List<Room> getRoomById(Integer id)
-    {
-      
-       String hqlQuery = "SELECT H FROM Room H WHERE H.id = :id";
-       Query<Room> query = getSession().createQuery(hqlQuery, Room.class);
-       query.setParameter("id", id);
-      
-       List<Room> results = query.getResultList();
-       
-      // System.out.println(results.size());
-        
-       return results;
-        
+
+    public List<Room> getRoomById(Integer id) {
+
+        String hqlQuery = "SELECT H FROM Room H WHERE H.id = :id";
+        Query<Room> query = getSession().createQuery(hqlQuery, Room.class);
+        query.setParameter("id", id);
+
+        List<Room> results = query.getResultList();
+
+        // System.out.println(results.size());
+        return results;
+
     }
-    
-     public List<Room> getAllRoom(String address, String capacity)
-    {
-       // System.out.println("Dao address " + address);
-       // System.out.println("Dao capacity " + capacity);
-       String hqlQuery = "SELECT H FROM Room H WHERE H.capacity >= :capacity AND H.address LIKE CONCAT('%', :address, '%')";
-       Query<Room> query = getSession().createQuery(hqlQuery, Room.class);
-       query.setParameter("capacity", capacity);
-       query.setParameter("address", address);
-       List<Room> results = query.getResultList();
-       
-     //  System.out.println(results.size());
-        
-       return results;
-        
-        
+
+    public List<Room> getAllRoom(String address, String capacity) {
+        // System.out.println("Dao address " + address);
+        // System.out.println("Dao capacity " + capacity);
+        String hqlQuery = "SELECT H FROM Room H WHERE H.capacity >= :capacity AND H.address LIKE CONCAT('%', :address, '%')";
+        Query<Room> query = getSession().createQuery(hqlQuery, Room.class);
+        query.setParameter("capacity", capacity);
+        query.setParameter("address", address);
+        List<Room> results = query.getResultList();
+
+        //  System.out.println(results.size());
+        return results;
+
     }
-    
+
+    public List<Room> getAllRoomByOffset(String address, String capacity, Integer offSet) {
+        // System.out.println("Dao address " + address);
+        // System.out.println("Dao capacity " + capacity);
+        Query<Room> query = getSession().createQuery("FROM Room", Room.class);
+        query.setFirstResult(offSet);
+        query.setMaxResults(3);
+
+// Execute the query and retrieve the results
+        List<Room> roomList = query.getResultList();
+
+        //  System.out.println(results.size());
+        return roomList;
+
+    }
+
+    public Long getTotalHotelRoomsCount() {
+        return getSession().createQuery("SELECT COUNT(*) FROM Room", Long.class).getSingleResult();
+    }
+
 }

@@ -4,6 +4,7 @@
     Author     : rohitpanicker
 --%>
 
+<%@page import="com.mycompany.hotel_reservation_system.dao.RoomDao"%>
 <%@page import="com.mycompany.hotel_reservation_system.pojo.UserAccount"%>
 <%@page import="java.util.List"%>
 <%@page import="com.mycompany.hotel_reservation_system.pojo.Room"%>
@@ -124,8 +125,14 @@
     %>
 </div>
 
+    <%
+       Long totalHotelRoomsCount = new RoomDao().getTotalHotelRoomsCount();
+       Integer totalPages = (int) Math.ceil(totalHotelRoomsCount / (double) 3);
+        %>
 <div class="container">
     <form class="search-form" method="POST">
+         <input type="hidden" name="page" value="1"> <!-- Page number -->
+    <input type="hidden" name="pageSize" value="3"> <!-- Page size -->
         <input type="text" class="search-input" placeholder="Enter Destination" name="address" autocomplete="off">
         <input type="text" class="date-picker" placeholder="Select Check-In Date" name="date" autocomplete="off">
         <input type="text" class="date-picker" placeholder="Select Check-Out Date" name="outdate" autocomplete="off">
@@ -163,13 +170,43 @@
                 </div>
             </div>
         </div>
-        <% }
+                
+               
+        <% } %>
+        <div class="pagination">
+    <% for (int i = 1; i <= totalPages; i++) { %>
+        <a href="#" onclick="changePage(<%= i %>,'<%= bookingDate%>', '<%= checkoutDate%>')"><%= i %></a> &nbsp;&nbsp;
+    <% } %>
+</div>
+<%
   }%>
+   
     </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+
+
+<script>
+    function changePage(pageNumber,  checkInDate, checkoutDate) {
+         var form = document.querySelector('.search-form');
+         var pageNumberInput = form.querySelector('input[name="page"]');
+         var checkinDateInput = form.querySelector('input[name="date"]');
+        var checkoutDateInput = form.querySelector('input[name="outdate"]');
+
+
+        pageNumberInput.value = pageNumber;
+        alert(checkInDate);
+        checkinDateInput.value = checkInDate
+        checkoutDateInput.value = checkoutDate
+        
+         form.submit();
+    }
+</script>
+
+
 
 <script>
     $(function () {

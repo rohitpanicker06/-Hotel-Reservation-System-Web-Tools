@@ -140,17 +140,24 @@ public class HotelRoomController {
        String capacity = request.getParameter("capacity");
        String date = request.getParameter("date");
        String checkoutDate = request.getParameter("outdate");
+       
+   
+       
+       int pageNumber = Integer.parseInt(request.getParameter("page"));
+       int pageSize = Integer.parseInt(request.getParameter("pageSize"));
+       int offset = (pageNumber - 1) * pageSize;
         
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
        LocalDate date1 = LocalDate.parse(date, formatter);
        LocalDate date2 = LocalDate.parse(checkoutDate, formatter);
+       
        
         
         // Calculate the difference between the two dates
         long daysDifference = ChronoUnit.DAYS.between(date1, date2);
       //  System.out.println("Days difference = " + daysDifference);
        
-       List<Room> allRooms = dao.getAllRoom(address, capacity);
+       List<Room> allRooms = dao.getAllRoomByOffset(address, capacity, offset);
       // System.out.println("Last Result size = " + allRooms.size());
        
        ModelAndView mv = new ModelAndView();
