@@ -41,6 +41,12 @@ public class FrontDeskController {
         return new ModelAndView(Constants.LOGIN_VIEW, "viewBookingResult", null);
        
       }
+        
+         if(!utils.checkPermission(request, Constants.FRONTDESK_ROLE))
+      {
+          return new ModelAndView(Constants.ACCESS_ERROR_PAGE, "error", null);
+      }
+        
         List<Room> hotelRoomsList = roomDao.getAllRoom();
 
         return new ModelAndView(Constants.FRONT_DESK, "hotelRoomsList", hotelRoomsList);

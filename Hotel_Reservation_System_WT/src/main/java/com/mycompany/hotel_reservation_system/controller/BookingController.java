@@ -37,6 +37,12 @@ public class BookingController {
         return new ModelAndView(Constants.LOGIN_VIEW, "viewBookingResult", null);
        
       }
+      
+      if(!utils.checkPermission(request, Constants.USER_ROLE))
+      {
+          return new ModelAndView(Constants.ACCESS_ERROR_PAGE, "error", null);
+      }
+      
        Integer id = Integer.parseInt(request.getParameter("param1"));
        List<BookingDetails> list = bookingDao.getAllBookingByUserId(id);
        return new ModelAndView(Constants.VIEW_BOOKINGS, "viewBookingResult", list);

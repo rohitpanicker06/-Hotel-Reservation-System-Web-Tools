@@ -42,7 +42,7 @@ public class Utils {
     {
         
         
-        boolean result = request.isUserInRole(role) || request.isUserInRole("admin");
+        boolean result = (request.isUserInRole(role) || request.isUserInRole("admin"));
      
         return result;
         

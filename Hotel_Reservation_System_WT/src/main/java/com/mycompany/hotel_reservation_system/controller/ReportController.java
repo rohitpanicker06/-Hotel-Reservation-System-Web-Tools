@@ -23,6 +23,7 @@ public class ReportController {
     @GetMapping("/room/report.pdf")
     public View handleRequestGet( HttpServletRequest request, HttpServletResponse response){
        
+        
       
         String uniqueId = request.getParameter("uniqueId");
        String hotelId = request.getParameter("roomId");

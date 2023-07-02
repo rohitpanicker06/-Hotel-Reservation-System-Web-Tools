@@ -37,11 +37,16 @@ public class ManageBookingController {
        
       }
         
+         if(!utils.checkPermission(request, Constants.USER_ROLE))
+      {
+          return new ModelAndView(Constants.ACCESS_ERROR_PAGE, "error", null);
+      }
+        
         String userId = request.getParameter("userId");
         System.out.println("Manage Booking request recieved for usedId" + userId);
         List<BookingDetails> bookingDetails = bookingDao.getAllBookingByUserId(Integer.valueOf(userId));
         List<ManageBooking> manageList = bookingDao.processResult(bookingDetails, roomDao);
-        System.out.println(" new dates"+ bookingDetails.get(0).getBookingDate() + " " + bookingDetails.get(0).getCheckoutDate()+" ");
+      //  System.out.println(" new dates"+ bookingDetails.get(0).getBookingDate() + " " + bookingDetails.get(0).getCheckoutDate()+" ");
         return new ModelAndView(Constants.VIEW_BOOKINGS, "manageBookings", manageList);
               
         

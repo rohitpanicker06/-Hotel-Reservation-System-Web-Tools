@@ -74,6 +74,11 @@ public class HotelRoomController {
         return Constants.LOGIN_VIEW;
        
       }
+        
+         if(!utils.checkPermission(request, Constants.ADMIN_ROLE))
+      {
+          return Constants.ACCESS_ERROR_PAGE;
+      }
       
         
         return Constants.ADD_ROOM_VIEW;
@@ -117,6 +122,11 @@ public class HotelRoomController {
       {
         return Constants.LOGIN_VIEW;
        
+      }
+        
+        if(!utils.checkPermission(request, Constants.USER_ROLE))
+      {
+          return Constants.ACCESS_ERROR_PAGE;
       }
         
         return Constants.SEARCH_PAGE;
