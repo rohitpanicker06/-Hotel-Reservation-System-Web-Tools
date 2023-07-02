@@ -38,7 +38,41 @@ public class BookingDetails {
     private Integer userId;
      
     @Column(name="bookingDate")
-    String bookingDate;
+    private String bookingDate;
+    
+    
+    private String checkoutDate;
+    
+    private Integer numberOfDays;
+    
+    private Integer totalCost;
+    
+  
+
+    public String getCheckoutDate() {
+        return checkoutDate;
+    }
+
+    public void setCheckoutDate(String checkoutDate) {
+        this.checkoutDate = checkoutDate;
+    }
+
+    public Integer getNumberOfDays() {
+        return numberOfDays;
+    }
+
+    public void setNumberOfDays(Integer numberOfDays) {
+        this.numberOfDays = numberOfDays;
+    }
+
+    public Integer getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(Integer totalCost) {
+        this.totalCost = totalCost;
+    }
+    
 
     public Integer getHotelId() {
         return hotelId;

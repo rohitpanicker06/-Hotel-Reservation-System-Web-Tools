@@ -7,6 +7,19 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+    <filter>
+        <filter-name>RoleFilter</filter-name>
+        <filter-class>com.mycompany.hotel_reservation_system.filter.RoleFilter</filter-class>
+    </filter>
+    
+     <filter-mapping>
+        <filter-name>RoleFilter</filter-name>
+        <url-pattern>/room/*</url-pattern>
+    </filter-mapping>
+    
+    
+    
+    
     <servlet>
         <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

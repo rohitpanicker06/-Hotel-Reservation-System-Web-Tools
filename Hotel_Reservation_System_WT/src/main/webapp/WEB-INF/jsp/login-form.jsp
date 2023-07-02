@@ -3,7 +3,6 @@
     Created on : Jun 27, 2023, 4:17:27 PM
     Author     : rohitpanicker
 --%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <!DOCTYPE html>
@@ -13,52 +12,53 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/css/bootstrap.min.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
         <title>Login Page</title>
     </head>
     <body>
-
+        <br> <br>
+        <h3 style="text-align: center; font-weight: bold"> Welcome to Hotel Reservation System </h3>
         <div class="container">
             <div class="row justify-content-center mt-5">
                 <div class="col-md-6">
                     <div class="card">
-                        <div class="card-header">
-                            <h4>Login</h4>
+                        <div class="card-header bg-primary text-white">
+                            <h4 class="m-0">Login</h4>
                         </div>
                         <div class="card-body">
-
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email address</label>
-                                <input type="email" class="form-control" id="email" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="password" required>
-                            </div>
-                            <button type="button" id="buttonB" class="btn btn-primary">login</button>
-
+                            <form>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email address</label>
+                                    <input type="email" class="form-control" id="email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="password" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="role" class="form-label">Select Role</label>
+                                    <select class="form-select" id="role" required>
+                                        <option value="user">Customer</option>
+                                        <option value="admin">Administrator</option>
+                                        <option value="frontdesk">Front Desk Staff</option>
+                                        <option value="housekeeping">Housekeeping Staff</option>
+                                    </select>
+                                </div>
+                                <button type="button" id="buttonB" class="btn btn-primary">Login</button>
+                                    <a href="signup.htm" class="btn btn-primary">Sign Up</a>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
         <script>
-            // Get the button element by its id
-
-
-
             var button = document.getElementById("buttonB");
-
-            // Add the onclick event listener
             button.addEventListener("click", function () {
-                // Code to be executed when the button is clicked
-
                 var us = document.getElementById("email").value;
                 var pass = document.getElementById("password").value;
-
-
+                var role = document.getElementById("role").value;
 
                 const xhttp = new XMLHttpRequest();
                 xhttp.open("POST", "http://localhost:8080/Hotel_Reservation_System_WT/room/checkLoginRest.htm", true);
@@ -66,24 +66,27 @@
 
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
-                        // Typical action to be performed when the document is ready:
-
+                        alert(xhttp.responseText);
                         const obj = JSON.parse(xhttp.responseText);
-                        //alert(typeof obj.checkLoginResult);
 
-                        if (obj.checkLoginResult === "true")
-                        {
-                            alert("Login Succesful");
-                            window.location.href = "http://localhost:8080/Hotel_Reservation_System_WT/room/searchRooms.htm";
-                        }else{
-                            alert("Your entered Credentials are wrong, Please Try Again");
+                        if (obj.checkLoginResult === "true") {
+                            alert("Login Successful");
+                            if (obj.role === "admin") {
+                                 window.location.href = "http://localhost:8080/Hotel_Reservation_System_WT/room/add.htm";
+                        
+                            } else if (obj.role === "user") {
+                                window.location.href = "http://localhost:8080/Hotel_Reservation_System_WT/room/searchRooms.htm";
+                            } else if (obj.role === "frontdesk") {
+                                window.location.href = "http://localhost:8080/Hotel_Reservation_System_WT/room/frontdesk.htm";
+                            } else if (obj.role === "housekeeping") {
+                                // Redirect to housekeeping page
+                            }
+                        } else {
+                            alert("Your entered credentials are wrong or the selected role is incorrect. Please try again.");
                         }
                     }
                 };
-                xhttp.send("param1=" + us + "&param2=" + pass);
-
-
-
+                xhttp.send("param1=" + us + "&param2=" + pass + "&param3=" + role);
             });
         </script>
     </body>

@@ -19,11 +19,12 @@ import org.springframework.stereotype.Component;
 public class UserAccountDao extends DAO {
     
     
-    public boolean checkLogin(String us, String pass, UserAccount userAccount)
+    public UserAccount checkLogin(String us, String pass, UserAccount userAccount, String role)
     {
-        Query q = getSession().createQuery("FROM UserAccount Where userName= :userName AND password= :password", UserAccount.class);
+        Query q = getSession().createQuery("FROM UserAccount Where userName= :userName AND password= :password AND role= :role " , UserAccount.class);
         q.setParameter("userName", us);
         q.setParameter("password", pass);
+        q.setParameter("role", role); 
         
         UserAccount account = (UserAccount) q.uniqueResult();
         
@@ -36,9 +37,10 @@ public class UserAccountDao extends DAO {
             userAccount.setRole(account.getRole());
             userAccount.setUserName(account.getUserName());
             
-            return true;
+            
+            return userAccount;
         }
-        return false;
+        return null;
     }
     
     

@@ -58,7 +58,7 @@ public class RoomDao extends DAO {
       
        List<Room> results = query.getResultList();
        
-       System.out.println(results.size());
+      // System.out.println(results.size());
         
        return results;
         
@@ -66,15 +66,15 @@ public class RoomDao extends DAO {
     
      public List<Room> getAllRoom(String address, String capacity)
     {
-        System.out.println("Dao address " + address);
-        System.out.println("Dao capacity " + capacity);
+       // System.out.println("Dao address " + address);
+       // System.out.println("Dao capacity " + capacity);
        String hqlQuery = "SELECT H FROM Room H WHERE H.capacity >= :capacity AND H.address LIKE CONCAT('%', :address, '%')";
        Query<Room> query = getSession().createQuery(hqlQuery, Room.class);
        query.setParameter("capacity", capacity);
        query.setParameter("address", address);
        List<Room> results = query.getResultList();
        
-       System.out.println(results.size());
+     //  System.out.println(results.size());
         
        return results;
         

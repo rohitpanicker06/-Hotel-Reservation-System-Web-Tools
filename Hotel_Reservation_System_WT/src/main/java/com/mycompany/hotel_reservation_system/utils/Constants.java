@@ -17,4 +17,14 @@ public class Constants {
     public static String INITIAL_SEARCH_PAGE ="intialSearchPage";
     public static String SEARCH_PAGE = "searchPage";
     public static String VIEW_BOOKINGS = "viewBookings";
+    public static String ACCESS_ERROR_PAGE ="AccessErrorPage";
+    
+    
+    
+    
+    public static String ADMIN_ROLE="admin";
+     public static String USER_ROLE="user";
+      public static String FRONTDESK_ROLE="frontdesk";
+       public static String HOUSEKEEPING_ROLE="housekeeping";
+    public static String FRONT_DESK = "frontDeskView";
 }

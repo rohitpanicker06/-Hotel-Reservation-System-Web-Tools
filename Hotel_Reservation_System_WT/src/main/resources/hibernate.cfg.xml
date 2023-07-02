@@ -24,7 +24,7 @@
         <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
 
         <!-- Echo all executed SQL to stdout -->
-        <property name="show_sql">true</property>
+        <property name="show_sql">false</property>
 
         <!-- Database dropping will be generated followed by database creation -->
         <!--<property name="hbm2ddl.auto">none</property> -->
@@ -33,6 +33,7 @@
         <mapping class= "com.mycompany.hotel_reservation_system.pojo.Room" />
          <mapping class= "com.mycompany.hotel_reservation_system.pojo.UserAccount" />
          <mapping class= "com.mycompany.hotel_reservation_system.pojo.BookingDetails" />
+         <mapping class= "com.mycompany.hotel_reservation_system.pojo.CheckInDetails" />
       
     </session-factory>
 </hibernate-configuration>

@@ -15,6 +15,10 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.Principal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -44,8 +48,17 @@ public class HotelRoomController {
     @Autowired
     HotelRoomValidator validator;
     
+    @Autowired
+    Utils utils;
+    
+    @GetMapping("/room/landingPage.htm")
+    public String showLandingPage()
+    {
+        return "landingPage";
+    }
+    
     @GetMapping("/room/add.htm")
-    public String showFormForaddRoomFacility(HttpServletRequest request, ModelMap model, Room room, Utils utils)
+    public String showFormForaddRoomFacility(HttpServletRequest request, ModelMap model, Room room)
     {
          
         /*if (!utils.isLoggedIn(request)) {
@@ -55,6 +68,13 @@ public class HotelRoomController {
         model.addAttribute("room", room); // used instead of command class
         return Constants.ADD_ROOM_VIEW;
         }*/
+        
+        if(!utils.isLoggedIn(request))
+      {
+        return Constants.LOGIN_VIEW;
+       
+      }
+      
         
         return Constants.ADD_ROOM_VIEW;
     }
@@ -72,7 +92,7 @@ public class HotelRoomController {
         {
             return Constants.ADD_ROOM_VIEW;
         }
-        System.out.println("Outside Validate");
+     //   System.out.println("Outside Validate");
        
         String fileName = room.getPhoto().getOriginalFilename();
         
@@ -93,23 +113,42 @@ public class HotelRoomController {
     @GetMapping("/room/searchRooms.htm")
     public String getAllHotelRooms(HttpSession session, HttpServletRequest request, RoomDao dao)
     {
-           System.out.println("Session testing inside get = " +   session.getId());
-        return "searchPage";
+        if(!utils.isLoggedIn(request))
+      {
+        return Constants.LOGIN_VIEW;
+       
+      }
+        
+        return Constants.SEARCH_PAGE;
     }
     
     @PostMapping("/room/searchRooms.htm")
     public ModelAndView searchHotelRooms(HttpSession session, HttpServletRequest request, RoomDao dao)
     {
-       System.out.println("Session testing inside post = " +   session.getId());
+       
        String address = request.getParameter("address");
        String capacity = request.getParameter("capacity");
        String date = request.getParameter("date");
+       String checkoutDate = request.getParameter("outdate");
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+       LocalDate date1 = LocalDate.parse(date, formatter);
+       LocalDate date2 = LocalDate.parse(checkoutDate, formatter);
+       
+        
+        // Calculate the difference between the two dates
+        long daysDifference = ChronoUnit.DAYS.between(date1, date2);
+      //  System.out.println("Days difference = " + daysDifference);
+       
        List<Room> allRooms = dao.getAllRoom(address, capacity);
-       System.out.println("Last Result size = " + allRooms.size());
+      // System.out.println("Last Result size = " + allRooms.size());
        
        ModelAndView mv = new ModelAndView();
        mv.addObject("searchResults", allRooms);
        mv.addObject("bookingDate", date);
+       mv.addObject("checkoutDate", checkoutDate);
+       mv.addObject("noOfDays", daysDifference);
+   
        mv.setViewName("searchPage");
        
        return mv;

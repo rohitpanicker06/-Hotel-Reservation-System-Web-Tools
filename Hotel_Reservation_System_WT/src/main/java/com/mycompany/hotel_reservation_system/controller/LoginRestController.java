@@ -22,21 +22,28 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginRestController {
     
     @PostMapping(value = "/room/checkLoginRest.htm", produces="application/json")
-    public String checkLogin(HttpSession session, HttpServletRequest request, HttpServletResponse response, UserAccountDao dao, UserAccount userAccount)
+    public String checkLogin( HttpSession session, HttpServletRequest request, HttpServletResponse response, UserAccountDao dao, UserAccount userAccount)
     {
        
        session.setAttribute("testSession", "sessionTest");
        String userName = request.getParameter("param1");
        String password = request.getParameter("param2");
+       String role = request.getParameter("param3");
+       
         System.out.println("Received checkLoginRequest for " + userName);
-       boolean loginResult = dao.checkLogin(userName, password, userAccount);
-       if(loginResult)
+       UserAccount returnUserAccount = dao.checkLogin(userName, password, userAccount, role);
+       if(returnUserAccount != null)
        {
            session.setAttribute("isLoggedIn", "true");
-           session.setAttribute("userAccount", userAccount);
+           request.getSession().setAttribute("userAccount", returnUserAccount);
+           session.setAttribute("role", role);
+           UserAccount test = (UserAccount) request.getSession().getAttribute("userAccount");
+           
+           return "{\"checkLoginResult\":\"true\",\"role\":\""+role+"\"}";
        }
-       String jsonResult = "{\"checkLoginResult\":\"" + loginResult + "\"}";
        
-        return jsonResult;
+        return "{\"checkLoginResult\":\"false\",\"role\":\""+role+"\"}";
+       
+        
     }
 }

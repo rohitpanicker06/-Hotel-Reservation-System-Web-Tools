@@ -13,6 +13,9 @@ import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfWriter;
 import com.mycompany.hotel_reservation_system.dao.RoomDao;
 import com.mycompany.hotel_reservation_system.pojo.Room;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +33,7 @@ public class PdfViewImpl extends AbstractPdfView{
     private String bookingDate;
     private String roomId;
     private String imagePath = "/Users/rohitpanicker/Desktop/webDevProject/FileUploads/";
+    private String checkoutDate;
     
     
    
@@ -37,11 +41,12 @@ public class PdfViewImpl extends AbstractPdfView{
     public PdfViewImpl() {
     }
     
-    public PdfViewImpl(String uniqueId, String bookingDate, String roomId)
+    public PdfViewImpl(String uniqueId, String bookingDate, String roomId, String checkoutDate)
     {
         this.uniqueId=uniqueId;
         this.bookingDate=bookingDate;
         this.roomId=roomId;
+        this.checkoutDate = checkoutDate;
         
     }
 
@@ -52,13 +57,27 @@ public class PdfViewImpl extends AbstractPdfView{
         
      Paragraph p1 =  new Paragraph(uniqueId);
      Paragraph p2 =  new Paragraph(bookingDate);
+     Paragraph p3 = new Paragraph(checkoutDate);
      List<Room> room = roomDao.getRoomById(Integer.parseInt(roomId));
      String newImagePath = imagePath + room.get(0).getId() + ".jpg";
-     System.out.println("New Image Path = " + newImagePath);
+   //  System.out.println("New Image Path = " + newImagePath);
      String hotelName = room.get(0).getHotelName();
      String address = room.get(0).getAddress();
      Integer pincode = room.get(0).getPincode();
-     Double costPerDay = room.get(0).getCostPerDay();
+     String costPerDay = String.valueOf(room.get(0).getCostPerDay());
+     double costPerDayDouble = Double.parseDouble(costPerDay);
+     
+       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+       LocalDate date1 = LocalDate.parse(bookingDate, formatter);
+       LocalDate date2 = LocalDate.parse(checkoutDate, formatter);
+       
+        
+        // Calculate the difference between the two dates
+        Long daysDifference = ChronoUnit.DAYS.between(date1, date2);
+     
+      
+    Long totalbookingAmount = (long) (costPerDayDouble * daysDifference);
+     
      Integer capacity = room.get(0).getCapacity();
      Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 20, Font.BOLD);
     Font subtitleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 16, Font.BOLD);
@@ -69,11 +88,13 @@ public class PdfViewImpl extends AbstractPdfView{
     Paragraph title = new Paragraph("Hotel Reservation Report", titleFont);
     title.setAlignment(Element.ALIGN_CENTER);
     
+    Paragraph totalCostInfo = new Paragraph("Total Booking Amount = $"+totalbookingAmount, subtitleFont);
     Paragraph reservationInfo = new Paragraph("Reservation Information", subtitleFont);
     reservationInfo.setSpacingBefore(20);
     
     Paragraph uniqueIdParagraph = new Paragraph("Reservation ID: " + uniqueId, contentFont);
-    Paragraph bookingDateParagraph = new Paragraph("Booking Date: " + bookingDate, contentFont);
+    Paragraph bookingDateParagraph = new Paragraph("Checkin Date: " + bookingDate, contentFont);
+     Paragraph checkoutDateParagraph = new Paragraph("Checkout Date: " + checkoutDate, contentFont);
     
     Paragraph roomInfo = new Paragraph("Room Information", subtitleFont);
     roomInfo.setSpacingBefore(20);
@@ -89,6 +110,7 @@ public class PdfViewImpl extends AbstractPdfView{
     doc.add(reservationInfo);
     doc.add(uniqueIdParagraph);
     doc.add(bookingDateParagraph);
+    doc.add(checkoutDateParagraph);
     doc.add(roomInfo);
     doc.add(image);
     doc.add(hotelNameParagraph);
@@ -96,6 +118,7 @@ public class PdfViewImpl extends AbstractPdfView{
     doc.add(pincodeParagraph);
     doc.add(costPerDayParagraph);
     doc.add(capacityParagraph);
+    doc.add(totalCostInfo);
     
     // Close the document
     doc.close();

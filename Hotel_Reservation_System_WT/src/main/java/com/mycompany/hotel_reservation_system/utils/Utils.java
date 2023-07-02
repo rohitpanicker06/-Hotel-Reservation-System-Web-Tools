@@ -22,16 +22,29 @@ public class Utils {
          HttpSession session = request.getSession(false);
          
         // Get the current session if it exists
-           if(session.getAttribute("isLoggedIn") == null)
+           if(session!=null && session.getAttribute("isLoggedIn") == null)
            {
+               System.out.println("IsLoggedIn=false");
                return false;
            }else if( Boolean.parseBoolean((String) session.getAttribute("isLoggedIn")) == true )
            {
+               System.out.println("IsLoggedIn=true");
                return true;
            }
           
            
            return false;
+        
+    }
+    
+    
+    public boolean checkPermission (HttpServletRequest request, String role)
+    {
+        
+        
+        boolean result = request.isUserInRole(role) || request.isUserInRole("admin");
+     
+        return result;
         
     }
     

@@ -6,6 +6,7 @@ package com.mycompany.hotel_reservation_system.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LogoutController {
     
     
-    @GetMapping("/logout.htm")
+    @PostMapping("/room/logout.htm")
     public String logout(HttpServletRequest request)
     {
         request.getSession().invalidate();

@@ -29,17 +29,25 @@ public class BookingRestController {
         System.out.println("Received bokoing request");
         String bookingDate = request.getParameter("param1");
         String hotelID = request.getParameter("param2");
-         System.out.println("Received booking request for bookingDate " + bookingDate + " and hotelId= " +hotelID);
+        String checkoutDate = request.getParameter("param3");
+        String numberOfDays = request.getParameter("param4");
+        String costPerDay = request.getParameter("param5");
+       //  System.out.println("Received booking request for bookingDate " + bookingDate + " and hotelId= " +hotelID);
+        // System.out.println("Received booking request for checkoutDate " + checkoutDate + " and numberDays= " +numberOfDays);
         UserAccount userAccount = (UserAccount) session.getAttribute("userAccount");
         Integer userId = userAccount.getId();
-        System.out.println("Received booking request for bookingDate " + bookingDate + " and hotelId= " +hotelID 
-        + "  userId = " + userId );
+       // System.out.println("Received booking request for bookingDate " + bookingDate + " and hotelId= " +hotelID 
+        //+ "  userId = " + userId );
         
         booking.setHotelId(Integer.valueOf(hotelID));
         Integer uniqueId = Integer.parseInt(getRandomNumberString());
         booking.setId(Integer.parseInt(String.valueOf(uniqueId)));
         booking.setUserId(userId);
         booking.setBookingDate(bookingDate);
+        booking.setCheckoutDate(checkoutDate);
+        booking.setNumberOfDays(Integer.valueOf(numberOfDays));
+        booking.setTotalCost(Integer.valueOf(numberOfDays)*Integer.valueOf(costPerDay));
+        
         bookingDao.saveBooking(booking);
         String result ="true";
         String jsonResult = "{\"added\":\"" + result + "\", \"uniqueId\":\""+ uniqueId + "\"}";
@@ -48,12 +56,9 @@ public class BookingRestController {
     }
     
     public static String getRandomNumberString() {
-    // It will generate 6 digit random Number.
-    // from 0 to 999999
+    
     Random rnd = new Random();
     int number = rnd.nextInt(999999);
-
-    // this will convert any number sequence into 6 character.
     return String.format("%06d", number);
 }
     
