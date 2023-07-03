@@ -114,22 +114,37 @@
 
             function signUp()
             {
-                // alert("Clicked SignUp");
-
                 const userName = document.getElementById("username").value;
-                // alert(userName);
                 const password = document.getElementById("password").value;
-                // alert(password);
                 const email = document.getElementById("email").value;
-                // alert(email);
                 const confirmPass = document.getElementById("confirmPassword").value;
-                // alert(confirmPass);
-
                 const role = document.getElementById("role").value;
+                const checkBox = document.getElementById("form2Example3c");
 
-                if (password !== confirmPass)
-                {
-                    alert("Your Passwords does not match");
+               
+
+                if (userName.length < 6) {
+                    alert("Username should be at least six characters");
+                    return;
+                }
+
+                if (!validateEmail(email)) {
+                    alert("Please enter a valid email address");
+                    return;
+                }
+
+                if (!validatePassword(password)) {
+                    alert("Password should have at least 12 characters, a mixture of uppercase and lowercase letters, numbers, and special characters");
+                    return;
+                }
+
+                if (password !== confirmPass) {
+                    alert("Password and confirm password do not match");
+                    return;
+                }
+
+                if (!checkBox.checked) {
+                    alert("Please agree to the Terms of Service");
                     return;
                 }
 
@@ -138,8 +153,9 @@
 
 
 
+
                 const xhttp = new XMLHttpRequest();
-                xhttp.open("GET", "http://localhost:8080/Hotel_Reservation_System_WT/room/sendOtp.htm?emailAddress="+email+" ", true);
+                xhttp.open("GET", "http://localhost:8080/Hotel_Reservation_System_WT/room/sendOtp.htm?emailAddress=" + email + " ", true);
                 xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
                 xhttp.onreadystatechange = function () {
@@ -148,7 +164,7 @@
 
                         const obj = JSON.parse(xhttp.responseText);
 
-                        alert(obj.otp);
+                      
                         if (obj.success === "true")
                         {
 
@@ -173,7 +189,7 @@
                                         }
                                     }
                                 };
-                                newhhtp.send("userName=" +userName+ "&emailAddress=" + email + "&password=" + password + "&email=" + email + "&role=" + role);
+                                newhhtp.send("userName=" + userName + "&emailAddress=" + email + "&password=" + password + "&email=" + email + "&role=" + role);
 
 
 
@@ -193,9 +209,19 @@
                 xhttp.send();
 
 
-
-
             }
+
+            function validateEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+
+
+            function validatePassword(password) {
+                const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@!#?])[A-Za-z\d@!#?]{12,}$/;
+                return passwordRegex.test(password);
+            }
+
         </script>
     </body>
 </html>

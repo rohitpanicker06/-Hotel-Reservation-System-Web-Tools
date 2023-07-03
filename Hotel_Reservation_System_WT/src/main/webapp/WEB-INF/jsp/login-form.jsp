@@ -30,10 +30,12 @@
                                     <label for="email" class="form-label">Email address</label>
                                     <input type="email" class="form-control" id="email" required>
                                 </div>
+                                <label for="errorEmail" id ="errorEmail" class="form-label" hidden> Email Cannot be Empty</label>
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
                                     <input type="password" class="form-control" id="password" required>
                                 </div>
+                                <label for="errorPassword" id ="errorPassword" class="form-label" hidden>Email Cannot be Empty</label>
                                 <div class="mb-3">
                                     <label for="role" class="form-label">Select Role</label>
                                     <select class="form-select" id="role" required>
@@ -44,7 +46,7 @@
                                     </select>
                                 </div>
                                 <button type="button" id="buttonB" class="btn btn-primary">Login</button>
-                                    <a href="signup.htm" class="btn btn-primary">Sign Up</a>
+                                <a href="signup.htm" class="btn btn-primary">Sign Up</a>
                             </form>
                         </div>
                     </div>
@@ -60,6 +62,25 @@
                 var pass = document.getElementById("password").value;
                 var role = document.getElementById("role").value;
 
+
+
+
+
+                if (us === "") {
+                    var errorEmailNode = document.getElementById("errorEmail");
+                    errorEmailNode.style.color = "red"; // Set the color to red
+                    errorEmailNode.removeAttribute("hidden"); // Remove the "hidden" attribute
+                    
+                    return;
+                }
+
+                if (pass === "") {
+                    var errorPassword = document.getElementById("errorPassword");
+                    errorPassword.style.color = "red"; // Set the color to red
+                    errorPassword.removeAttribute("hidden"); // Remove the "hidden" attribute
+                    return;
+                }
+
                 const xhttp = new XMLHttpRequest();
                 xhttp.open("POST", "http://localhost:8080/Hotel_Reservation_System_WT/room/checkLoginRest.htm", true);
                 xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -72,8 +93,8 @@
                         if (obj.checkLoginResult === "true") {
                             alert("Login Successful");
                             if (obj.role === "admin") {
-                                 window.location.href = "http://localhost:8080/Hotel_Reservation_System_WT/room/add.htm";
-                        
+                                window.location.href = "http://localhost:8080/Hotel_Reservation_System_WT/room/add.htm";
+
                             } else if (obj.role === "user") {
                                 window.location.href = "http://localhost:8080/Hotel_Reservation_System_WT/room/searchRooms.htm";
                             } else if (obj.role === "frontdesk") {
